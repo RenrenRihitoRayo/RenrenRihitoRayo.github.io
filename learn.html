@@ -1,0 +1,407 @@
+<html lang="en">
+    <style>
+        * {
+            color: white;
+            background-color: #222222;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow: hide;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .title {
+            background-color: #2C3E50;
+            border-radius: 10px;
+            padding: 6px;
+            padding-left: 5px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #333333;
+            border-radius: 10px;
+            padding: 6px;
+            overflow: scroll;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+        <h1>DuProL.dev</h1>
+        <a href="./index.html">Go back...</a><br><br>
+        <a href="#hello_world">Hello world</a><br>
+        <a href="#variables">Using Variables</a><br>
+        <a href="#fmt_str">Formatted Strings</a><br>
+        <a href="#functions">Functions</a><br>
+        <a href="#cond">Conditionals</a><br>
+        <a href="#expressions">Expressions</a><br>
+        <a href="#errors">Errors</a><br>
+        <a href="#tc">Type Checking</a><br>
+        <a href="#sam">Switches and Matching</a><br>
+        <a href="#intern">Internals</a><br>
+        <a href="#comments">Comments</a><br>
+        <a href="#classes">Classes</a><br>
+        <a href="#incdir">Including Directories</a><br>
+        <a href="#cmd">Commands</a><br>
+        <a href="#flags">Flags</a>
+        <h2 class="title">How to Program in DPL</h2>
+        <h2 id="hello_world">Hello World!</h2>
+        <pre id="content">
+&use {std/text_io.py}
+io:println "Hello, world!"
+        </pre>
+        
+        <h2 id="variables">Using Variables</h2>
+        <pre id="content">
+&use {std/text_io.py}
+set this = 90
+io:println :this
+del this
+
+dict my_person
+    set name => "Andrew"
+    set age  => 90
+end
+
+# {'name':'Andrew', 'age':90}
+io:println :my_person
+        </pre>
+        
+        <h2 id="fmt_str">Formatted Strings</h2>
+        <pre id="content">
+&use {std/text_io.py}
+set hello_world "Hello, world!"
+io:println '${hello_world}'
+# only encloses local scope
+io:println [fast-format "${hello_world}"]
+        </pre>
+        
+        <h2 id="functions">Functions</h2>
+        <pre id="content">
+# fn fn_name(arg1 arg2 ... argN [var=default_value])
+fn greet(name, [greeter=Andrew])
+    io:println 'Hello ${name}, Im ${greeter}!'
+end
+
+# Hello Darren, Im Andrew!
+greet "Darren"
+# Hello Darren, Im Alex!
+greet "Darren" "Alex"
+greet "Darren" [greetor => "Alex"]
+        </pre>
+        
+        <h2 id="cond">Conditionals</h2>
+        <pre id="content">
+# simple if statement
+if cond
+    ... true block
+end
+
+# DPL doesnt support elif or else if
+
+# supports both literals and conditions
+match value
+    as alias
+    with literal
+        ... body
+        ... fallthrough
+    end
+    case cond
+        ... body
+        ... fallthrough
+    end
+    default
+        ... body
+    end
+end
+
+# faster but doesnt have fallthroughs
+switch value
+    case literal
+        ...
+    end
+    default
+        ...
+    end
+end
+        </pre>
+        
+        <h2 id="loops">Loops</h2>
+        <pre id="content">
+loop
+    ... loops indefinitely
+end
+
+loop num
+    ... loops 'num' number of types
+end
+
+for name in iterable
+    ... loops through the given iterable
+end
+
+for index, name in iterable
+    ... loops through the given iterable
+end
+
+while cond
+    ... loop while cond stays true
+end
+        </pre>
+        
+        <h2 id="comments">Comments</h2>
+        <pre id="content">
+# normal comments
+# lime comments can never be put on the same
+# line as code.
+# this promotes readability.
+
+--
+  This is a multiline comment.
+--
+
+-- This is valid! --
+
+-- This
+is valid as well --
+
+# Semantic Comments
+# Makes possible to make comments useful
+# for the users and maintainers
+
+#:Gets fetched by "dpl get-docs"
+
+--doc
+    Same here!
+--
+        </pre>
+        
+        <h2 id="classes">Classes</h2>
+        <pre id="content">
+&use {std/text_io.py}
+
+object Person
+method  Person.new(name)
+    new :self tmp
+    set tmp.name = :name
+    return :tmp
+end
+method Person.greet(name)
+    io:println 'Hello ${name} Im ${self.name}'
+end
+
+catch (person) Person.new "Andrew"
+person.greet "Carl"
+        </pre>
+        
+        <h2 id="expressions">Expressions</h2>
+        <pre id="content">
+...[ v1 + v2 ]
+...[ v1 - v2 ]
+...[ v1 * v2 ]
+...[ v1 / v2 ]
+...[ v1 ** v2 ]
+...[ v1 / v2 ]
+...[ v1 // v2 ]
+...[ v1 % v2 ]
+...[ v1 == v2 ]
+...[ v1 != v2 ]
+...[ v1 &gt;= v2 ]
+...[ v1 &lt;= v2 ]
+...[ list&lt;index&gt; ]
+...[ v1 in v2 ]
+...[ v1 and v2 ]
+...[ v1 or v2 ]
+...[ not v1 ]
+...[! item1 item2 ... itemN ]
+...[pyobject@method]
+...[key->value]
+...[dict [key->value] [key1->value1] ...]
+
+# "..." when used as an instruction becomes a comment.
+... gets ignored!
+# but when used as an expression
+set elipsis = ...
+# becomes the elipsis type.
+
+# Warning: Function 'func' is empty.
+fn func
+    ...
+end
+
+# Doesnt complain.
+fn func
+    pass
+end
+        </pre>
+        
+        <h2 id="error">Errors</h2>
+        <pre id="content">
+safe err_var function args...
+scatch [!err_var return_value] function args...
+smcatch [!err_var return_value]  function args...
+# if the function is successful the err_var is nil
+        </pre>
+        
+        <h2 id="tc">Type Checking</h2>
+        <pre id="content">
+# enable the type checker
+set _meta.debug.type_checker true
+# true to ignore missing type signatures
+set _meta.debug.TC_DEFAULT_WHEN_NOT_FOUND false
+
+tc_register "func_name :: type1 type2"
+tc_register "@ranged variadic_any :: any ..."
+tc_register "%define_no_type"
+tc_register "specific_num_args[2] :: str int"
+        </pre>
+        
+        <h2 id="sam">Switches and Matching</h2>
+        <pre id="content">
+&use {std/text_io.py}
+
+io:input "Name: " name
+
+set users .set
+
+# Cascading with explicit control through fallthrough keyword
+match :name
+    # semantically readen as `match with "admin"`
+    with "admin"
+        fallthrough
+    end
+    with "superuser"
+        io:println "Logged in as admin"
+    end
+    # semantically readen as `match case cond`
+    case [:name in :users]
+        io:println "Welcome!"
+    end
+    default
+        io:println 'User ${user} is not logged in!'
+        io:input "Register? [y] " reg
+        if [:reg == "y"]
+            pass [:users@add :name]
+        end
+    end
+end
+
+# compiles into
+# _intern.switch {"test":..., "darren":..., None:...} :value
+# doesnt allow fallthroughs since its not a real
+# jump table.
+io:input "Name: " value
+switch :value
+    case test
+        io:println "Test!"
+    end
+    case darren
+        io:println "Hello Creator, welcome back!"
+    end
+    # also case PyNone
+    default
+        io:println 'Hello ${value}!'
+    end
+end
+# internally
+# _intern.switch is just fetching the value and running it.
+# no comparisons at the cost of no fallthroughs.
+# Switch statements only uses literals.
+# No conditions unlike the match statement.
+        </pre>
+        
+        <h2 id="intern">Internals</h2>
+        <pre id="content">
+# Might be used by instructions
+# Currently the only instruction used is _intern.switch
+_intern.get_index basic_label
+_intern.switch [[code blocks here]] value
+_intern.jump :basic_label
+
+# theres also another syntax:
+_intern.jump index cond
+        </pre>
+        
+        <h2 id="incdir">Including Directories</h2>
+        <p>Make sure to have an `include-[lang].txt` in the directory where lang is the language.</p>
+        <dl>
+            <dt>include-py.txt</dt>
+            <dd>For python.</dd>
+            <dt>include-dpl.txt</dt>
+            <dd>For dpl.</dd>
+            <dt>include-lua.txt</dt>
+            <dd>For lua scripts.</dd>
+        </dl>
+        <pre id="content">
+# example "include-py.txt"
+
+# Comments can be used here.
+#:this will be printed!
+#:useful for warnings and such.
+
+# will be imported in the given order.
+lib1.py
+lib2.py
+lib3.py
+# similar to "&use {.../lib4.py} as alias"
+lib4.py => alias
+        </pre>
+        
+        <h2 class="title">CLI</h2>
+        
+        <h2 id="cmd">Commands</h2>
+        <pre id="content">
+dpl run [file.dpl] arg1 arg2 ... argN
+    Runs the given file.
+dpl rc [file.cdpl] arg1 arg2 ... argN
+    Runs the compiled dpl script.
+dpl compile [file.dpl]
+    Compiles the given file.
+dpl help
+    Prints help text
+dpl package install username reponame branch include_branch_name
+    Installs the package.
+    include_branch_name can be "true" or "false".
+    When include_branch_namenis true the package name will be "package-branch"
+    Example: "some_pack-1.4.8"
+dpl package installto: path username reponame branch include_branch_name
+    Installs the package in the specified path.
+    include_branch_name can be "true" or "false".
+    When include_branch_namenis true the package name will be "package-branch"
+    Example: "some_pack-1.4.8"
+dpl package remove package_name
+    Deletes package.
+dpl get-docs [file.dpl]
+        </pre>
+        
+        <h2 id="flags">Flags</h2>
+        <pre id="content">
+-init-time
+    Show initialization time.
+-skip-non-essential
+    Skip REPL modules.
+-disable-auto-complete
+    Disable REPL auto-complete.
+-no-cffi
+    Disable CFFI.
+-no-lupa
+    Disable LuaJIT.
+-dry-run
+    Dry run the CLI.
+-p (also -cprofile)
+    Profile the interpreter using cProfile
+-order-profile=...
+    Order the output of "-cprofile"
+-simple-run [file]
+    Skips initiating the CLI amd runs the file.
+    This is convinient for files that do not take arguments,
+    but needs to run fast.
+    Recommended to use with "-skip-non-essential"
+        </pre>
+        
+
+        <p>(c) 2024 Darren Papa</p>
+    </body>
+</html>

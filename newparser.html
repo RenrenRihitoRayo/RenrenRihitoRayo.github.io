@@ -1,0 +1,76 @@
+<html lang="en">
+    <style>
+        * {
+            color: white;
+            background-color: #222222;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .title {
+            background-color: #2C3E50;
+            border-radius: 10px;
+            padding: 6px;
+            padding-left: 5px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #333333;
+            border-radius: 10px;
+            padding: 3px;
+            overflow: scroll;
+        }
+        code {
+            border-radius: 10px;
+            padding: 3px;
+            background-color: transparent
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+        <h1>DuProL.dev</h1>
+        <a href="./index.html">Go back...</a>
+        <p>
+            The new parser is under development!<br>
+            It is under "py_parser2.py" in "libs.core".<br>
+            It is available to play with within "dpl_module.py"!
+        </p>
+        <pre>
+from dpl import dpl_module
+code = "# dpl code here"
+executor = dpl_module.parser2.executor(code)
+executor.resolve_instructions()
+executor.run()
+# if youre running the same code once
+# then this is not necessary.
+executor.reset()
+        </pre>
+        <p>Features supported by the new parser</p>
+        <pre>
+(preprocessing directives are still the same
+they are sepparate from runtime after all)
+Old -> New
+
+fn name(...) - same
+catch (...) func ... -> catch (...) = func ...
+scatch, smcatch - unsupported
+if - same
+while - same
+loop - same
+for name in iter - same
+for index, name in iter - unsupported
+set name = value - same
+del name, ... - same
+object, new - unsupported
+io:println, io:print -> println, print (intrinsics)
+io:input -> .input (expression) "set user_input = .input"
+dict - unsupported
+method - unsupported
+exit - unsupported
+scatch - unsupported
+        </pre>
+    </body>
+</html>

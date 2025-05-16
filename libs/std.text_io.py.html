@@ -1,0 +1,59 @@
+<html lang="en">
+    <style>
+        * {
+            color: white;
+            background-color: #222222;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow: hide;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .title {
+            background-color: #2C3E50;
+            border-radius: 10px;
+            padding: 6px;
+            padding-left: 5px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #333333;
+            border-radius: 10px;
+            padding: 6px;
+            overflow: scroll;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+        <h1>DuProL.dev</h1>
+        <a href="../lib.html">Go back...</a><br><br>
+        <h2 class="title">std/text_io.py</h2>
+        <p>Type signatures</p>
+        <pre>
+@ranged io:println :: any ...
+@ranged io:print :: any ...
+#           prompt var
+io:input :: str str
+# just prompt
+io:input[1] :: str
+# avoids repr printing logic
+@ranged io:rawprintln :: any ...
+@ranged io:rawprint :: any ...
+# can be used for printing ansi codes
+@ranged io:rawoutput :: any ...
+# can be used for redirecting output
+@ranged io:setoutputfile :: TextIOWrapper
+# Use to update output stream. Python loves buffering output.
+%flush
+        </pre>
+
+        <p>
+        Written by: Darren Papa<br>
+        (c) 2024 Darren Papa
+        </p>
+    </body>
+</html>

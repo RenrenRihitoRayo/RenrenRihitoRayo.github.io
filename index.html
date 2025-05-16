@@ -1,0 +1,102 @@
+<html lang="en">
+    <style>
+        * {
+            color: white;
+            background-color: #222222;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .title {
+            background-color: #2C3E50;
+            border-radius: 10px;
+            padding: 6px;
+            padding-left: 5px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #333333;
+            border-radius: 10px;
+            padding: 3px;
+            overflow: scroll;
+        }
+        code {
+            border-radius: 10px;
+            padding: 3px;
+            background-color: transparent
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+        <h1>DuProL.dev</h1>
+        <p>Currently under work!</p>
+        <a href="./newparser.html">New Expiramental Parser!</a><br>
+        <a href="./learn.html">Learn DPL</a><br>
+        <a href="./lib.html">Libraries</a><br><br>
+        <a href="./cred.html">Credits</a><br><br>
+        <a href="https://github.com/DarrenPapa/dpl">DPL Github</a><br>
+        <a href="https://github.com/DarrenPapa/">My Github</a>
+        <h2 class="title">Updates</h2>
+        <div id="content"></div>
+        <p>(c) 2024 Darren Papa</p>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/marked@2.0.0/lib/marked.min.js"></script>
+
+    <script>
+        // GitHub raw file URL (replace with your file's raw URL)
+        const url = 'https://raw.githubusercontent.com/DarrenPapa/dpl/refs/heads/master/README.md';
+        
+        // Fetch the file
+        fetch(url)
+            .then(response => response.text())
+            .then(markdown => {
+                const md = markdown.split("Most recent at top.", 2);
+                // Render the markdown into HTML
+                const htmlContent = marked(md[1] || md[0]);
+                document.getElementById('content').innerHTML = htmlContent;
+            })
+            .catch(error => {
+                alert(error);
+                console.error('Error fetching the file:', error);
+            });
+    </script>
+<script>
+  function wrapHyphenatedWords() {
+    const preTags = document.querySelectorAll('code');
+
+    preTags.forEach(preTag => {
+      // Check if the content has already been processed (by adding a class or attribute)
+      if (!preTag.hasAttribute('data-processed')) {
+        let htmlContent = preTag.innerHTML;
+        const hyphenatedWordPattern = /-\w+(-\w+){1,}/g;
+
+        htmlContent = htmlContent.replace(hyphenatedWordPattern, match => {
+          console.log(match, htmlContent);
+          return `<span style="background-color: #333333; white-space: nowrap;">${match}</span>`;
+        });
+
+        preTag.innerHTML = htmlContent;
+
+        // Mark the <pre> as processed to prevent further modification
+        preTag.setAttribute('data-processed', 'true');
+      }
+    });
+  }
+
+  window.onload = wrapHyphenatedWords;
+
+  // If you need to handle dynamically added <pre> elements, use MutationObserver carefully:
+  const observer = new MutationObserver(() => {
+    wrapHyphenatedWords(); // Process only once for each <pre> element
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+</script>
+
+</html>
