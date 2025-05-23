@@ -44,6 +44,7 @@
         <a href="#comments">Comments</a><br>
         <a href="#classes">Classes</a><br>
         <a href="#incdir">Including Directories</a><br>
+        <a href="#refs">Using References</a><br>
         <a href="#cmd">Commands</a><br>
         <a href="#flags">Flags</a>
         <h2 class="title">How to Program in DPL</h2>
@@ -334,19 +335,25 @@ _intern.jump index cond
             <dt>include-lua.txt</dt>
             <dd>For lua scripts.</dd>
         </dl>
+        
+        <h2 id="ref">Using References</h2>
+        <p>Passing variables via references</p>
         <pre id="content">
-# example "include-py.txt"
+&use {std/text_io.py}
 
-# Comments can be used here.
-#:this will be printed!
-#:useful for warnings and such.
+set var = 90
 
-# will be imported in the given order.
-lib1.py
-lib2.py
-lib3.py
-# similar to "&use {.../lib4.py} as alias"
-lib4.py => alias
+fn test(reference)
+    # deref the value
+    set previous_val = reference::deref
+    setref :reference = 80
+    io:println '${reference.name} changed into 80 from ${previous_val}'
+end
+
+# Prints: var changed into 80 from 90
+test var::ref
+
+io:println :var
         </pre>
         
         <h2 class="title">CLI</h2>
