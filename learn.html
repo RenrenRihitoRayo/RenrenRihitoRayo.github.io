@@ -37,14 +37,13 @@
         <a href="#functions">Functions</a><br>
         <a href="#cond">Conditionals</a><br>
         <a href="#expressions">Expressions</a><br>
-        <a href="#errors">Errors</a><br>
-        <a href="#tc">Type Checking</a><br>
         <a href="#sam">Switches and Matching</a><br>
         <a href="#intern">Internals</a><br>
         <a href="#comments">Comments</a><br>
         <a href="#classes">Classes</a><br>
         <a href="#incdir">Including Directories</a><br>
         <a href="#refs">Using References</a><br>
+        <a href="#mk_iter">Implementing your iterators</a><br>
         <a href="#cmd">Commands</a><br>
         <a href="#flags">Flags</a>
         <h2 class="title">How to Program in DPL</h2>
@@ -81,16 +80,15 @@ io:println [fast-format "${hello_world}"]
         
         <h2 id="functions">Functions</h2>
         <pre id="content">
-# fn fn_name(arg1 arg2 ... argN [var=default_value])
-fn greet(name, [greeter=Andrew])
+# fn fn_name(arg1 arg2 ... argN)
+fn greet(name)
     io:println 'Hello ${name}, Im ${greeter}!'
 end
 
 # Hello Darren, Im Andrew!
-greet "Darren"
+greet("Darren")
 # Hello Darren, Im Alex!
-greet "Darren" "Alex"
-greet "Darren" [greetor => "Alex"]
+greet("Darren", "Alex")
         </pre>
         
         <h2 id="cond">Conditionals</h2>
@@ -238,27 +236,6 @@ fn func
 end
         </pre>
         
-        <h2 id="error">Errors</h2>
-        <pre id="content">
-safe err_var function args...
-scatch [!err_var return_value] function args...
-smcatch [!err_var return_value]  function args...
-# if the function is successful the err_var is nil
-        </pre>
-        
-        <h2 id="tc">Type Checking</h2>
-        <pre id="content">
-# enable the type checker
-set _meta.debug.type_checker true
-# true to ignore missing type signatures
-set _meta.debug.TC_DEFAULT_WHEN_NOT_FOUND false
-
-tc_register "func_name :: type1 type2"
-tc_register "@ranged variadic_any :: any ..."
-tc_register "%define_no_type"
-tc_register "specific_num_args[2] :: str int"
-        </pre>
-        
         <h2 id="sam">Switches and Matching</h2>
         <pre id="content">
 &use {std/text_io.py}
@@ -355,6 +332,34 @@ test var::ref
 
 io:println :var
         </pre>
+        <!--
+        <h2 id="mk_iter">Implementing your iterators</h2>
+        <p>This is a standard guide to implement your iterators.
+        This uses the foreach loop, which calls methods in the
+        iterator.</p>
+        <pre id="content">
+&use {std/text_io.py}
+
+object my_iter
+
+method my_iter.new(value)
+    set self.value = :value
+    set self.index = 0
+end
+
+method my_iter._im_next()
+    set val = [self.value(self.index)]
+    inc self.index
+    return :val
+end
+
+catch (my_tup) my_iter.new (1 2 3 4)
+
+foreach item in my_tup
+    io:println :item
+end
+        </pre>
+        -->
         
         <h2 class="title">CLI</h2>
         

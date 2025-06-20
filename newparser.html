@@ -40,41 +40,25 @@
         </p>
         <pre>
 from dpl import dpl_module
-code = "# dpl code here"
-executor = dpl_module.parser2.executor(code)
-executor.resolve_instructions()
-executor.run()
-# if youre running the same code once
-# then this is not necessary.
-executor.reset()
+
+dpl_module.info.LIBDIR =\
+"LIBDIR HERE"
+
+code = """
+&use {std/text_io.py}
+io:println("Hello, world!")
+"""
+
+processed_code = dpl_module.py_parser.process(code)
+dpl_module.py_parser2.process_hlir(processed_code)
+dpl_module.py_parser2.execute(processed_code)
         </pre>
         <p>Features supported by the new parser</p>
         <pre>
-(preprocessing directives are still the same
-they are sepparate from runtime after all)
-Old -> New
-
-fn name(...) - same
-catch (...) func ... -> catch (...) = func ...
-scatch, smcatch - unsupported
-if - same
-while - same
-loop - same
-for name in iter - same
-for index, name in iter - unsupported
-set name = value - same
-del name, ... - same
-object, new - unsupported
-io:println, io:print -> println, print (intrinsics)
-io:input -> .input (expression) "set user_input = .input"
-dict - unsupported
-method - unsupported
-exit - same
-raise - unsupported
-scatch - unsupported
-skip, stop - same
-DEFINE_ERROR - unsupported
-START_TIME, STOP_TIME, LOG_TIME - same
+while
+set
+python calls
+lua calls
         </pre>
     </body>
 </html>
