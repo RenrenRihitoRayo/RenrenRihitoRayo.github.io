@@ -30,6 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <body>
         <h1>DuProL.dev</h1>
+        <h3>Updated for 1.4.9!</h3>
         <a href="./index.html">Go back...</a><br><br>
         <a href="#hello_world">Hello world</a><br>
         <a href="#variables">Using Variables</a><br>
@@ -50,23 +51,23 @@
         <h2 id="hello_world">Hello World!</h2>
         <pre id="content">
 &use {std/text_io.py}
-io:println "Hello, world!"
+io:println("Hello, world!")
         </pre>
         
         <h2 id="variables">Using Variables</h2>
         <pre id="content">
 &use {std/text_io.py}
 set this = 90
-io:println :this
+io:println(:this)
 del this
 
 dict my_person
-    set name => "Andrew"
-    set age  => 90
+    set name = "Andrew"
+    set age  = 90
 end
 
 # {'name':'Andrew', 'age':90}
-io:println :my_person
+io:println(:my_person)
         </pre>
         
         <h2 id="fmt_str">Formatted Strings</h2>
@@ -224,16 +225,6 @@ person.greet "Carl"
 # but when used as an expression
 set elipsis = ...
 # becomes the elipsis type.
-
-# Warning: Function 'func' is empty.
-fn func
-    ...
-end
-
-# Doesnt complain.
-fn func
-    pass
-end
         </pre>
         
         <h2 id="sam">Switches and Matching</h2>
@@ -331,35 +322,7 @@ end
 test var::ref
 
 io:println :var
-        </pre>
-        <!--
-        <h2 id="mk_iter">Implementing your iterators</h2>
-        <p>This is a standard guide to implement your iterators.
-        This uses the foreach loop, which calls methods in the
-        iterator.</p>
-        <pre id="content">
-&use {std/text_io.py}
-
-object my_iter
-
-method my_iter.new(value)
-    set self.value = :value
-    set self.index = 0
-end
-
-method my_iter._im_next()
-    set val = [self.value(self.index)]
-    inc self.index
-    return :val
-end
-
-catch (my_tup) my_iter.new (1 2 3 4)
-
-foreach item in my_tup
-    io:println :item
-end
-        </pre>
-        -->
+</pre>
         
         <h2 class="title">CLI</h2>
         
