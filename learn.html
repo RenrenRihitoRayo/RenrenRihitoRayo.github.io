@@ -73,10 +73,12 @@ io:println(:my_person)
         <h2 id="fmt_str">Formatted Strings</h2>
         <pre id="content">
 &use {std/text_io.py}
+
 set hello_world "Hello, world!"
-io:println '${hello_world}'
+io:println('${hello_world}')
+
 # only encloses local scope
-io:println [fast-format "${hello_world}"]
+io:println([fast-format "${hello_world}"])
         </pre>
         
         <h2 id="functions">Functions</h2>
@@ -186,22 +188,11 @@ is valid as well --
         </pre>
         
         <h2 id="classes">Classes</h2>
-        <pre id="content">
-&use {std/text_io.py}
-
-object Person
-method  Person.new(name)
-    new :self tmp
-    set tmp.name = :name
-    return :tmp
-end
-method Person.greet(name)
-    io:println 'Hello ${name} Im ${self.name}'
-end
-
-catch (person) Person.new "Andrew"
-person.greet "Carl"
-        </pre>
+        <p id="content">
+            Classes have been deprecated since 1.4.8
+            but is still supported but you need to
+            manually implement it.
+        </p>
         
         <h2 id="expressions">Expressions</h2>
         <pre id="content">

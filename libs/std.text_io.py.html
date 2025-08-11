@@ -32,23 +32,35 @@
         <h1>DuProL.dev</h1>
         <a href="../lib.html">Go back...</a><br><br>
         <h2 class="title">std/text_io.py</h2>
-        <p>Type signatures</p>
+        <p>
+            As of 1.4.8 classes will no
+            longer be supported in the
+            language level, we may
+            provide a python extension
+            to use classes, or you may
+            need to implement it yourself.
+            <br><br>
+            Due to this, _im_repr
+            methods of functions will no longer
+            be used to format objects and may
+            result in the object, being printed
+            raw.
+        </p>
         <pre>
-@ranged io:println :: any ...
-@ranged io:print :: any ...
-#           prompt var
-io:input :: str str
-# just prompt
-io:input[1] :: str
-# avoids repr printing logic
-@ranged io:rawprintln :: any ...
-@ranged io:rawprint :: any ...
-# can be used for printing ansi codes
-@ranged io:rawoutput :: any ...
-# can be used for redirecting output
-@ranged io:setoutputfile :: TextIOWrapper
-# Use to update output stream. Python loves buffering output.
-%flush
+-- Prints the values separated by spaces
+   and also prints a newline. --
+io:println(variadic:value)
+
+-- Similar to io:println but with no
+   newline. --
+io:print(variadic:value)
+
+-- Takes in input and sets a variable --
+io:input(name, text?)
+
+-- Takes in a list of text, if a number
+   is encountered treat it as an ascii code. --
+io:rawoutput(variadic:value)
         </pre>
 
         <p>
