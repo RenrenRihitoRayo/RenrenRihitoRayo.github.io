@@ -83,13 +83,20 @@ io:println [fast-format "${hello_world}"]
         <pre id="content">
 # fn fn_name(arg1 arg2 ... argN)
 fn greet(name)
-    io:println 'Hello ${name}, Im ${greeter}!'
+    io:println('Hello ${name}, Im ${greeter}!')
 end
 
 # Hello Darren, Im Andrew!
 greet("Darren")
 # Hello Darren, Im Alex!
 greet("Darren", "Alex")
+
+fn square(number)
+    return [:number ** 2]
+end
+
+# 16
+io:println([call :square(4)])
         </pre>
         
         <h2 id="cond">Conditionals</h2>
