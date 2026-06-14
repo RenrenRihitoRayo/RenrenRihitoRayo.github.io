@@ -77,7 +77,9 @@
     <script src="mila.js"></script>
     
     <!-- Now define and run MiLa scripts -->
-    <script type="text/mila">
+    <h1 id="header">This is a header!</h1>
+
+    <script type="text/mila">i
 println("Hello, world!");
 println("MiLa is running in the browser!");
     </script>
@@ -85,6 +87,7 @@ println("MiLa is running in the browser!");
     <script type="text/mila">
 var x = 42;
 println("The answer is: " + x);
+time_sleep(2);
 dom.setText("#header", "test");
     </script>
     
